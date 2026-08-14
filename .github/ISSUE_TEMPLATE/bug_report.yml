@@ -1,0 +1,61 @@
+name: Bug report
+description: 报告一个可复现的问题。提交前请先脱敏所有日志与数据。
+title: "[Bug] "
+labels: [bug]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你帮助改进 CodexTokenBar。请只提交真实、可复现的问题。不要在 issue 中张贴凭据、认证文件、原始配额载荷或未脱敏日志。
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: 提交前检查
+      options:
+        - label: 我已阅读 CONTRIBUTING.md，并已脱敏全部日志与数据
+          required: true
+        - label: 我已搜索现有 issue，确保没有重复
+        - label: 我知道本项目与 OpenAI 无官方关联
+  - type: textarea
+    id: version
+    attributes:
+      label: 版本与环境
+      description: 粘贴应用版本、操作系统与架构（例如 Windows 11 x64、v1.0.0）。不要包含凭据。
+      placeholder: "v1.0.0,  Windows 11 x64"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 提供从启动到问题出现的最小可复现步骤。
+      placeholder: "1. 启动应用\n2. ...\n3. 观察到问题"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      placeholder: "圆环应显示绿色剩余配额"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      placeholder: "圆环一直为灰色和长破折号"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏日志
+      description: 粘贴已删除用户名、路径与令牌的日志片段。没有就写无。
+      placeholder: "已脱敏日志片段（或写“无”）"
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充信息
+      description: 屏幕截图（确保不含敏感信息）、任务栏类型或 DPI 设置等。

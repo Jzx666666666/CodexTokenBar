@@ -1,0 +1,212 @@
+<Window x:Class="CodexTokenBar.UI.SummaryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:domain="clr-namespace:CodexTokenBar.Domain"
+        Title="Codex 周额度"
+        Width="404"
+        SizeToContent="Height"
+        MinHeight="430"
+        MaxHeight="680"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        FontFamily="Segoe UI, Microsoft YaHei UI"
+        FontSize="14"
+        Closing="OnClosing"
+        Deactivated="OnDeactivated"
+        KeyDown="OnKeyDown">
+    <Window.Resources>
+        <SolidColorBrush x:Key="PanelBrush" Color="#FFFDFDFD"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FF1B1A19"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#FF5B5A58"/>
+        <SolidColorBrush x:Key="DividerBrush" Color="#FFE5E3E1"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="#FF107C10"/>
+        <SolidColorBrush x:Key="YellowBrush" Color="#FFF9A825"/>
+        <SolidColorBrush x:Key="RedBrush" Color="#FFC42B1C"/>
+        <SolidColorBrush x:Key="GrayBrush" Color="#FF605E5C"/>
+        <SolidColorBrush x:Key="ErrorSurfaceBrush" Color="#FFFDE7E5"/>
+        <SolidColorBrush x:Key="ErrorTextBrush" Color="#FF8A1C13"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style x:Key="QuotaCircleStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource GrayBrush}"/>
+            <Setter Property="Width" Value="164"/>
+            <Setter Property="Height" Value="164"/>
+            <Setter Property="CornerRadius" Value="82"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tone}" Value="{x:Static domain:QuotaTone.Green}">
+                    <Setter Property="Background" Value="{StaticResource GreenBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tone}" Value="{x:Static domain:QuotaTone.Yellow}">
+                    <Setter Property="Background" Value="{StaticResource YellowBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tone}" Value="{x:Static domain:QuotaTone.Red}">
+                    <Setter Property="Background" Value="{StaticResource RedBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="QuotaNumberStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="48"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tone}" Value="{x:Static domain:QuotaTone.Yellow}">
+                    <Setter Property="Foreground" Value="#FF1F1F1F"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="QuotaCaptionStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E6FFFFFF"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tone}" Value="{x:Static domain:QuotaTone.Yellow}">
+                    <Setter Property="Foreground" Value="#E61F1F1F"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="Panel"
+            Background="{DynamicResource PanelBrush}"
+            CornerRadius="16"
+            Padding="28"
+            Margin="16">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="24" ShadowDepth="8" Opacity="0.22" Color="#FF000000"/>
+        </Border.Effect>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Codex 周额度"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               FontFamily="Segoe UI Variable Display, Segoe UI"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <Button x:Name="HideButton"
+                            Grid.Column="1"
+                            Content="关闭"
+                            Click="OnHideClick"
+                            Padding="12,6"
+                            MinWidth="56"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderBrush="{DynamicResource DividerBrush}"
+                            ToolTip="隐藏额度面板"/>
+                </Grid>
+
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <Border Style="{StaticResource QuotaCircleStyle}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding RemainingText}"
+                                       Style="{StaticResource QuotaNumberStyle}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="剩余"
+                                       Style="{StaticResource QuotaCaptionStyle}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,-4,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="{Binding StatusText}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               Margin="0,16,0,0"/>
+                    <TextBlock Text="{Binding ResetText}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,6,0,0"/>
+                </StackPanel>
+
+                <Border Grid.Row="2"
+                        Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{DynamicResource ErrorSurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="14,12"
+                        Margin="0,22,0,0">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ErrorText}"
+                                   Foreground="{DynamicResource ErrorTextBrush}"
+                                   FontWeight="SemiBold"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding NextRetryText}"
+                                   Foreground="{DynamicResource ErrorTextBrush}"
+                                   Opacity="0.82"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Row="3"
+                            Visibility="{Binding HasOtherQuotas, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Margin="0,24,0,0">
+                    <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="0,0,0,18"/>
+                    <TextBlock Text="其他额度池"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10"/>
+                    <ItemsControl ItemsSource="{Binding OtherQuotas}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <TextBlock Text="{Binding ResetText}"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   FontSize="12"
+                                                   Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding RemainingText}"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <Border Grid.Row="4" Height="1" Background="{DynamicResource DividerBrush}" Margin="0,24,0,16"/>
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding LastUpdatedText}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               FontSize="12"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding RefreshCadenceText}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               FontSize="12"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Border>
+</Window>

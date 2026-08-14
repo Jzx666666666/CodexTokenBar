@@ -1,0 +1,13 @@
+.dotnet/
+.dotnet-cli-home/
+.nuget/
+.vs/
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+*.log
+*.db
+*.sqlite
+*.exe

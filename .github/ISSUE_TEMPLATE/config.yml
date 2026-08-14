@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 安全策略
+    url: https://github.com/Jzx666666666/CodexTokenBar/security/policy
+    about: 安全类问题请先阅读 SECURITY.md，并走私有报告渠道。
+  - name: 项目主页
+    url: https://github.com/Jzx666666666/CodexTokenBar
+    about: 查看仓库主页、README、贡献与安全指南。
