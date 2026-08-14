@@ -20,6 +20,7 @@
     <Description>在 Windows 托盘实时显示 Codex 周额度</Description>
     <Company>CodexTokenBar</Company>
     <Product>CodexTokenBar</Product>
+    <PathMap>$(MSBuildProjectDirectory)=/_/src/CodexTokenBar</PathMap>
     <PublishSingleFile Condition="'$(RuntimeIdentifier)' != ''">true</PublishSingleFile>
     <SelfContained Condition="'$(RuntimeIdentifier)' != ''">true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract Condition="'$(RuntimeIdentifier)' != ''">true</IncludeNativeLibrariesForSelfExtract>
